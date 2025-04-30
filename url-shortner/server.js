@@ -9,7 +9,7 @@ import connectDB from './config/db.js'; // MongoDB connection
 import Url from './models/url.js'; // URL model
 import urlRouter from './routes/url.js'; // URL shortening routes
 import staticRoute from './routes/staticRoute.js'; // Static routes
-
+import userRoutes from './routes/userRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -31,7 +31,8 @@ app.get("/test", async (req, res) => { // Test route to show all URLs
 });
 
 app.use('/url', urlRouter); // URL shortening endpoints
-
+app.use('/user', userRoutes); 
+app.use('/', staticRoute); // Static routes
 // URL redirection
 app.get("/:shortId", async (req, res) => { // Handles short URL visits
     const entry = await Url.findOneAndUpdate(
@@ -41,12 +42,12 @@ app.get("/:shortId", async (req, res) => { // Handles short URL visits
     entry ? res.redirect(entry.redirectUrl) : res.status(404).send("URL not found");
 });
 
-app.use('/', staticRoute); // Static routes
 
-// Basic root route
-app.get('/', (req, res) => {
-    res.send("Hello Shahid i am working Good");
-});
+
+// // Basic root route
+// app.get('/home', (req, res) => {
+//     res.send("Hello Shahid i am working Good");
+// });
 
 // Start server
 app.listen(PORT, () => {
