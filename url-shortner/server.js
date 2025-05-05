@@ -2,7 +2,7 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import  isAuthenticated  from './middleware/auth.js';
+import  {isAuthenticated ,checkAuth}  from './middleware/auth.js';
 dotenv.config(); // Loads environment variables
 import cookieParser from 'cookie-parser';
 // Database and route imports
@@ -33,8 +33,8 @@ app.get("/test", async (req, res) => { // Test route to show all URLs
 });
 
 app.use('/url', isAuthenticated, urlRouter); // URL shortening endpoints
-app.use('/user', userRoutes); 
-app.use('/', staticRoute); // Static routes
+app.use('/user',  userRoutes); 
+app.use('/', checkAuth,staticRoute); // Static routes
 // URL redirection
 app.get("/:shortId", async (req, res) => { // Handles short URL visits
     const entry = await Url.findOneAndUpdate(
