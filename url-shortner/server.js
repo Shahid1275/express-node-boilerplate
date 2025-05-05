@@ -2,8 +2,9 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
+import  isAuthenticated  from './middleware/auth.js';
 dotenv.config(); // Loads environment variables
-
+import cookieParser from 'cookie-parser';
 // Database and route imports
 import connectDB from './config/db.js'; // MongoDB connection
 import Url from './models/url.js'; // URL model
@@ -23,6 +24,7 @@ app.set('views', path.resolve('./views')); // Sets views directory
 // Middleware
 app.use(express.json()); // Parses JSON requests
 app.use(express.urlencoded({ extended: true })); // Parses form data
+app.use(cookieParser());
 
 // Routes
 app.get("/test", async (req, res) => { // Test route to show all URLs
@@ -30,7 +32,7 @@ app.get("/test", async (req, res) => { // Test route to show all URLs
     return res.render('home', { urls: allUrls });
 });
 
-app.use('/url', urlRouter); // URL shortening endpoints
+app.use('/url', isAuthenticated, urlRouter); // URL shortening endpoints
 app.use('/user', userRoutes); 
 app.use('/', staticRoute); // Static routes
 // URL redirection

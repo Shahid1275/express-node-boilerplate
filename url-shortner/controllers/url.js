@@ -27,16 +27,10 @@ export const handleGenerateNewUrl = async (req, res) => {
         const createdUrl = await Url.create({
             shortId: shortId,
             redirectUrl: url,
-            visitHistory: []
+            visitHistory: [],
+            createdBy:req.user._id
         });
            return res.render('home' ,{ id: shortId})
-        // return res.status(201).json({
-        //     success: true,
-        //     id: shortId,
-        //     shortUrl: `${req.protocol}://${req.get('host')}/${shortId}`,
-        //     fullUrl: createdUrl
-        // });
-
     } catch (error) {
         console.error("URL creation error:", error);
         
