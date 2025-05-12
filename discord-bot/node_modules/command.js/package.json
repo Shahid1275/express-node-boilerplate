@@ -1,0 +1,13 @@
+{
+  "name": "command.js",
+  "version": "0.0.1",
+  "description": "run commands synchronously",
+  "keywords": [],
+  "author": "matthew mueller <mattmuelle@gmail.com>",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "main": "index"
+}
